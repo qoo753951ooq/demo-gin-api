@@ -1,7 +1,11 @@
 package main
 
-import "demo-gin-api/route"
+import (
+	db "demo-gin-api/database"
+	"demo-gin-api/route"
+)
 
 func main() {
+	db.InitDB()
 	route.InitRouter()
 }

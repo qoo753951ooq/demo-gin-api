@@ -22,5 +22,6 @@ func setInformationRouter(apiGroup *gin.RouterGroup) {
 	newsRouter := apiGroup.Group("/news")
 	{
 		newsRouter.GET("", controller.NewsGetList)
+		newsRouter.GET("/:id", controller.NewsGet)
 	}
 }
