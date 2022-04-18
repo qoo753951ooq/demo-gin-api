@@ -62,3 +62,16 @@ func InsertNews(data News) (int64, error) {
 	fmt.Printf("Insert %s RowsAffected: %d\n", "news", result.RowsAffected)
 	return data.Id, result.Error
 }
+
+func UpdateNews(id int64, data News) error {
+
+	mariaDB, err := db.GetMariaDB()
+
+	if err != nil {
+		return err
+	}
+
+	result := mariaDB.Debug().Model(&News{}).Where("id = ?", id).Updates(&data)
+	fmt.Printf("Update %s RowsAffected: %d\n", "news", result.RowsAffected)
+	return result.Error
+}

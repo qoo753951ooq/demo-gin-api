@@ -16,3 +16,11 @@ type NewsPostVO struct {
 	Url     string `form:"url"`
 	Date    string `form:"date" binding:"required"`
 }
+
+type NewsPutVO struct {
+	Title   string `json:"title" binding:"required"`
+	Content string `json:"content"`
+	Belong  string `json:"belong"`
+	Url     string `json:"url"`
+	Date    string `json:"date" binding:"required"`
+}

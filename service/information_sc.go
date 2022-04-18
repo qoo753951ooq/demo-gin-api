@@ -19,3 +19,8 @@ func PostNews(body vo.NewsPostVO) (vo.NewsVO, error) {
 	news, err := information.AddNews(body)
 	return news, err
 }
+
+func PutNews(id int64, body vo.NewsPutVO) (string, error) {
+	result, err := information.EditNews(id, body)
+	return result, err
+}

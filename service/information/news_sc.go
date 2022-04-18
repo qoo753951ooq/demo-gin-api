@@ -5,6 +5,7 @@ import (
 	"demo-gin-api/model/dao"
 	"demo-gin-api/model/vo"
 	"demo-gin-api/util"
+	"fmt"
 	"strconv"
 )
 
@@ -54,6 +55,21 @@ func AddNews(data vo.NewsPostVO) (vo.NewsVO, error) {
 	return vo.NewsVO{Id: newsCreateId}, nil
 }
 
+func EditNews(id int64, data vo.NewsPutVO) (string, error) {
+
+	if editNews := dao.GetNewsById(id); editNews.Id == model.Zero_value {
+		return model.Empty_string, fmt.Errorf("%s\n", model.Id_not_found_string)
+	}
+
+	news := newUpdateNews(data)
+
+	if err := dao.UpdateNews(id, news); err != nil {
+		return model.Empty_string, err
+	}
+
+	return model.Ok_string, nil
+}
+
 func getNewsList(starttime, endtime string) []*vo.NewsVO {
 
 	news := make([]*vo.NewsVO, 0)
@@ -89,6 +105,31 @@ func getNews(data dao.News) vo.NewsVO {
 }
 
 func newInsertNews(data vo.NewsPostVO) dao.News {
+
+	var news dao.News
+
+	news.Title = data.Title
+
+	if data.Content != model.Empty_string {
+		news.Content = data.Content
+	}
+
+	if data.Belong != model.Empty_string {
+		news.Belong = data.Belong
+	}
+
+	if data.Url != model.Empty_string {
+		news.Url = data.Url
+	}
+
+	if date, err := util.GetLocationDate(data.Date); err == nil {
+		news.Date = date
+	}
+
+	return news
+}
+
+func newUpdateNews(data vo.NewsPutVO) dao.News {
 
 	var news dao.News
 

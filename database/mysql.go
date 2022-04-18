@@ -42,7 +42,7 @@ func InitDB() {
 func GetMariaDB() (*gorm.DB, error) {
 
 	if mariaDB == nil {
-		return nil, fmt.Errorf("%s \n", "connect: connection refused")
+		return nil, fmt.Errorf("%s \n", "connect: db connection refused")
 	}
 
 	return mariaDB, nil

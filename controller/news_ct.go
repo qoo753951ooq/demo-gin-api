@@ -45,3 +45,25 @@ func NewsPost(ctx *gin.Context) {
 
 	util.Success(ctx, "json", news)
 }
+
+func NewsPut(ctx *gin.Context) {
+
+	var nBody vo.NewsPutVO
+
+	idStr := ctx.Param("id")
+	id, err := strconv.ParseInt(idStr, 10, 64)
+
+	if err = ctx.ShouldBindJSON(&nBody); err != nil {
+		util.Failure(ctx, "string", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	result, err := service.PutNews(id, nBody)
+
+	if err != nil {
+		util.Failure(ctx, "string", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	util.Success(ctx, "string", result)
+}
