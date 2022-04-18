@@ -14,3 +14,8 @@ func GetNews(id int64) vo.NewsVO {
 	n := information.GetNews(id)
 	return n
 }
+
+func PostNews(body vo.NewsPostVO) (vo.NewsVO, error) {
+	news, err := information.AddNews(body)
+	return news, err
+}

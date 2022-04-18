@@ -38,6 +38,22 @@ func GetNews(id int64) vo.NewsVO {
 	return n
 }
 
+func AddNews(data vo.NewsPostVO) (vo.NewsVO, error) {
+
+	util.AddNewsMutex.Lock()
+
+	news := newInsertNews(data)
+	newsCreateId, err := dao.InsertNews(news)
+
+	if err != nil {
+		util.AddNewsMutex.Unlock()
+		return vo.NewsVO{}, err
+	}
+
+	util.AddNewsMutex.Unlock()
+	return vo.NewsVO{Id: newsCreateId}, nil
+}
+
 func getNewsList(starttime, endtime string) []*vo.NewsVO {
 
 	news := make([]*vo.NewsVO, 0)
@@ -70,4 +86,29 @@ func getNews(data dao.News) vo.NewsVO {
 	n.Date = data.Date.Format(util.DateFormat)
 
 	return n
+}
+
+func newInsertNews(data vo.NewsPostVO) dao.News {
+
+	var news dao.News
+
+	news.Title = data.Title
+
+	if data.Content != model.Empty_string {
+		news.Content = data.Content
+	}
+
+	if data.Belong != model.Empty_string {
+		news.Belong = data.Belong
+	}
+
+	if data.Url != model.Empty_string {
+		news.Url = data.Url
+	}
+
+	if date, err := util.GetLocationDate(data.Date); err == nil {
+		news.Date = date
+	}
+
+	return news
 }

@@ -2,16 +2,17 @@ package dao
 
 import (
 	db "demo-gin-api/database"
+	"fmt"
 	"time"
 )
 
 type News struct {
 	Id         int64 `gorm:"<-:create"`
-	Date       time.Time
 	Title      string
 	Content    string
 	Belong     string
 	Url        string
+	Date       time.Time
 	Created_at time.Time `gorm:"autoCreateTime;<-:create"`
 	Updated_at time.Time `gorm:"autoUpdateTime;<-:update"`
 }
@@ -47,4 +48,17 @@ func GetNewsById(id int64) News {
 	}
 
 	return news
+}
+
+func InsertNews(data News) (int64, error) {
+
+	mariaDB, err := db.GetMariaDB()
+
+	if err != nil {
+		return data.Id, err
+	}
+
+	result := mariaDB.Debug().Create(&data)
+	fmt.Printf("Insert %s RowsAffected: %d\n", "news", result.RowsAffected)
+	return data.Id, result.Error
 }

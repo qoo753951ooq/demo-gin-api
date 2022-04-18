@@ -23,5 +23,6 @@ func setInformationRouter(apiGroup *gin.RouterGroup) {
 	{
 		newsRouter.GET("", controller.NewsGetList)
 		newsRouter.GET("/:id", controller.NewsGet)
+		newsRouter.POST("", controller.NewsPost)
 	}
 }
