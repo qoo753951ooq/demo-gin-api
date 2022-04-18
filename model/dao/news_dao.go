@@ -75,3 +75,16 @@ func UpdateNews(id int64, data News) error {
 	fmt.Printf("Update %s RowsAffected: %d\n", "news", result.RowsAffected)
 	return result.Error
 }
+
+func DeleteNews(id int64) error {
+
+	mariaDB, err := db.GetMariaDB()
+
+	if err != nil {
+		return err
+	}
+
+	result := mariaDB.Debug().Where("id = ?", id).Delete(&News{})
+	fmt.Printf("Delete %s RowsAffected: %d\n", "news", result.RowsAffected)
+	return result.Error
+}

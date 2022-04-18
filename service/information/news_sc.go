@@ -70,6 +70,19 @@ func EditNews(id int64, data vo.NewsPutVO) (string, error) {
 	return model.Ok_string, nil
 }
 
+func DeleteNews(id int64) (string, error) {
+
+	if deleteNews := dao.GetNewsById(id); deleteNews.Id == model.Zero_value {
+		return model.Empty_string, fmt.Errorf("%s\n", model.Id_not_found_string)
+	}
+
+	if err := dao.DeleteNews(id); err != nil {
+		return model.Empty_string, err
+	}
+
+	return model.Ok_string, nil
+}
+
 func getNewsList(starttime, endtime string) []*vo.NewsVO {
 
 	news := make([]*vo.NewsVO, 0)

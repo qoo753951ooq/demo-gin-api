@@ -67,3 +67,18 @@ func NewsPut(ctx *gin.Context) {
 
 	util.Success(ctx, "string", result)
 }
+
+func NewsDelete(ctx *gin.Context) {
+
+	idStr := ctx.Param("id")
+	id, _ := strconv.ParseInt(idStr, 10, 64)
+
+	result, err := service.DeleteNews(id)
+
+	if err != nil {
+		util.Failure(ctx, "string", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	util.Success(ctx, "string", result)
+}

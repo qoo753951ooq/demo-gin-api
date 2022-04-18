@@ -24,3 +24,8 @@ func PutNews(id int64, body vo.NewsPutVO) (string, error) {
 	result, err := information.EditNews(id, body)
 	return result, err
 }
+
+func DeleteNews(id int64) (string, error) {
+	result, err := information.DeleteNews(id)
+	return result, err
+}
