@@ -1,0 +1,23 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Demo Swagger 說明文件",
+        "title": "Swagger Demo API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Alan Syu",
+            "email": "qoo753951ooq@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "127.0.0.1:8080",
+    "basePath": "/demo-gin-api",
+    "paths": {}
+}

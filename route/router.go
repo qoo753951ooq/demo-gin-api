@@ -2,18 +2,22 @@ package route
 
 import (
 	"demo-gin-api/controller"
+	"demo-gin-api/docs"
 
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func InitRouter() {
 
-	gin.SetMode(gin.TestMode)
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 
-	apiGroup := r.Group("/demo-gin-api")
+	apiGroup := r.Group(docs.SwaggerInfo.BasePath)
 	setInformationRouter(apiGroup)
 
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.Run(":8080")
 }
 
