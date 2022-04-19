@@ -10,6 +10,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary getList
+// @Tags information
+// @Produce  json
+// @param starttime query string false "開始時間 (yyyy-MM-dd)" default(2001-01-01)
+// @param endtime query string false "結束時間 (yyyy-MM-dd)" default(2001-01-02)
+// @param top query int false "取前幾筆" default(10)
+// @Success 200 {object} []vo.NewsVO
+// @Router /news [get]
 func NewsGetList(ctx *gin.Context) {
 
 	starttime := ctx.Query("starttime")
@@ -19,6 +27,12 @@ func NewsGetList(ctx *gin.Context) {
 	util.Success(ctx, "json", service.GetNewsList(starttime, endtime, top))
 }
 
+// @Summary getOne
+// @Tags information
+// @Produce  json
+// @param id path int true "編號"
+// @Success 200 {object} vo.NewsVO
+// @Router /news/{id} [get]
 func NewsGet(ctx *gin.Context) {
 
 	idStr := ctx.Param("id")
@@ -27,6 +41,15 @@ func NewsGet(ctx *gin.Context) {
 	util.Success(ctx, "json", service.GetNews(id))
 }
 
+// @Summary addOne
+// @Description 新增新聞
+// @Tags information
+// @Accept mpfd
+// @Produce json
+// @param postVO formData vo.NewsPostVO true "formData for NewsPostVO content"
+// @Success 200 {object} vo.NewsVO
+// @Failure 400 {string} string
+// @router /news [post]
 func NewsPost(ctx *gin.Context) {
 
 	var nBody vo.NewsPostVO
@@ -46,6 +69,16 @@ func NewsPost(ctx *gin.Context) {
 	util.Success(ctx, "json", news)
 }
 
+// @Summary editOne
+// @Description 編輯新聞
+// @Tags information
+// @Accept json
+// @Produce plain
+// @param id path int true "編號"
+// @param putVO body vo.NewsPutVO true "body for NewsPutVO content"
+// @Success 200 {string} string
+// @Failure 400 {string} string
+// @router /news/{id} [put]
 func NewsPut(ctx *gin.Context) {
 
 	var nBody vo.NewsPutVO
@@ -68,6 +101,14 @@ func NewsPut(ctx *gin.Context) {
 	util.Success(ctx, "string", result)
 }
 
+// @Summary deleteOne
+// @Description 刪除新聞
+// @Tags information
+// @Produce plain
+// @param id path int true "編號"
+// @Success 200 {string} string
+// @Failure 400 {string} string
+// @router /news/{id} [delete]
 func NewsDelete(ctx *gin.Context) {
 
 	idStr := ctx.Param("id")

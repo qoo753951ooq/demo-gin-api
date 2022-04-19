@@ -19,5 +19,272 @@
     },
     "host": "127.0.0.1:8080",
     "basePath": "/demo-gin-api",
-    "paths": {}
+    "paths": {
+        "/news": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "information"
+                ],
+                "summary": "getList",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "2001-01-01",
+                        "description": "開始時間 (yyyy-MM-dd)",
+                        "name": "starttime",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2001-01-02",
+                        "description": "結束時間 (yyyy-MM-dd)",
+                        "name": "endtime",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "取前幾筆",
+                        "name": "top",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/vo.NewsVO"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "新增新聞",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "information"
+                ],
+                "summary": "addOne",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "機關",
+                        "name": "belong",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "default": "內容",
+                        "name": "content",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "default": "發佈日期(yyyy-MM-dd)",
+                        "name": "date",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "主題",
+                        "name": "title",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "影片連結",
+                        "name": "url",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/vo.NewsVO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/news/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "information"
+                ],
+                "summary": "getOne",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "編號",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/vo.NewsVO"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "編輯新聞",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "information"
+                ],
+                "summary": "editOne",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "編號",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body for NewsPutVO content",
+                        "name": "putVO",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/vo.NewsPutVO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "刪除新聞",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "information"
+                ],
+                "summary": "deleteOne",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "編號",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "vo.NewsPutVO": {
+            "type": "object",
+            "required": [
+                "date",
+                "title"
+            ],
+            "properties": {
+                "belong": {
+                    "type": "string",
+                    "example": "機關"
+                },
+                "content": {
+                    "type": "string",
+                    "example": "內容"
+                },
+                "date": {
+                    "type": "string",
+                    "example": "發佈日期(yyyy-MM-dd)"
+                },
+                "title": {
+                    "type": "string",
+                    "example": "主題"
+                },
+                "url": {
+                    "type": "string",
+                    "example": "影片連結"
+                }
+            }
+        },
+        "vo.NewsVO": {
+            "type": "object",
+            "properties": {
+                "belong": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }

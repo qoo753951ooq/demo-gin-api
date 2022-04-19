@@ -1,4 +1,41 @@
 basePath: /demo-gin-api
+definitions:
+  vo.NewsPutVO:
+    properties:
+      belong:
+        example: 機關
+        type: string
+      content:
+        example: 內容
+        type: string
+      date:
+        example: 發佈日期(yyyy-MM-dd)
+        type: string
+      title:
+        example: 主題
+        type: string
+      url:
+        example: 影片連結
+        type: string
+    required:
+    - date
+    - title
+    type: object
+  vo.NewsVO:
+    properties:
+      belong:
+        type: string
+      content:
+        type: string
+      date:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      url:
+        type: string
+    type: object
 host: 127.0.0.1:8080
 info:
   contact:
@@ -11,7 +48,148 @@ info:
   termsOfService: http://swagger.io/terms/
   title: Swagger Demo API
   version: "1.0"
-paths: {}
+paths:
+  /news:
+    get:
+      parameters:
+      - default: "2001-01-01"
+        description: 開始時間 (yyyy-MM-dd)
+        in: query
+        name: starttime
+        type: string
+      - default: "2001-01-02"
+        description: 結束時間 (yyyy-MM-dd)
+        in: query
+        name: endtime
+        type: string
+      - default: 10
+        description: 取前幾筆
+        in: query
+        name: top
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/vo.NewsVO'
+            type: array
+      summary: getList
+      tags:
+      - information
+    post:
+      consumes:
+      - multipart/form-data
+      description: 新增新聞
+      parameters:
+      - default: 機關
+        in: formData
+        name: belong
+        type: string
+      - default: 內容
+        in: formData
+        name: content
+        type: string
+      - default: 發佈日期(yyyy-MM-dd)
+        in: formData
+        name: date
+        required: true
+        type: string
+      - default: 主題
+        in: formData
+        name: title
+        required: true
+        type: string
+      - default: 影片連結
+        in: formData
+        name: url
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/vo.NewsVO'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: addOne
+      tags:
+      - information
+  /news/{id}:
+    delete:
+      description: 刪除新聞
+      parameters:
+      - description: 編號
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: deleteOne
+      tags:
+      - information
+    get:
+      parameters:
+      - description: 編號
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/vo.NewsVO'
+      summary: getOne
+      tags:
+      - information
+    put:
+      consumes:
+      - application/json
+      description: 編輯新聞
+      parameters:
+      - description: 編號
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: body for NewsPutVO content
+        in: body
+        name: putVO
+        required: true
+        schema:
+          $ref: '#/definitions/vo.NewsPutVO'
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: editOne
+      tags:
+      - information
 schemes:
 - http
 swagger: "2.0"
