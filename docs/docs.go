@@ -26,6 +26,11 @@ const docTemplate = `{
     "paths": {
         "/news": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -69,6 +74,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "新增新聞",
                 "consumes": [
                     "multipart/form-data"
@@ -132,6 +142,11 @@ const docTemplate = `{
         },
         "/news/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -158,6 +173,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "編輯新聞",
                 "consumes": [
                     "application/json"
@@ -203,6 +223,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "刪除新聞",
                 "produces": [
                     "text/plain"
@@ -223,6 +248,46 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "description": "登入",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "authorization"
+                ],
+                "summary": "login",
+                "parameters": [
+                    {
+                        "description": "body for UserPostVO content",
+                        "name": "postVO",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/vo.UserPostVO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Token",
                         "schema": {
                             "type": "string"
                         }
@@ -289,6 +354,32 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "vo.UserPostVO": {
+            "type": "object",
+            "required": [
+                "account",
+                "password"
+            ],
+            "properties": {
+                "account": {
+                    "type": "string",
+                    "default": "alan",
+                    "example": "帳號"
+                },
+                "password": {
+                    "type": "string",
+                    "default": "testPwd",
+                    "example": "密碼"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

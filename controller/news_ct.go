@@ -16,6 +16,7 @@ import (
 // @param starttime query string false "開始時間 (yyyy-MM-dd)" default(2001-01-01)
 // @param endtime query string false "結束時間 (yyyy-MM-dd)" default(2001-01-02)
 // @param top query int false "取前幾筆" default(10)
+// @Security BearerAuth
 // @Success 200 {object} []vo.NewsVO
 // @Router /news [get]
 func NewsGetList(ctx *gin.Context) {
@@ -31,6 +32,7 @@ func NewsGetList(ctx *gin.Context) {
 // @Tags information
 // @Produce  json
 // @param id path int true "編號"
+// @Security BearerAuth
 // @Success 200 {object} vo.NewsVO
 // @Router /news/{id} [get]
 func NewsGet(ctx *gin.Context) {
@@ -47,6 +49,7 @@ func NewsGet(ctx *gin.Context) {
 // @Accept mpfd
 // @Produce json
 // @param postVO formData vo.NewsPostVO true "formData for NewsPostVO content"
+// @Security BearerAuth
 // @Success 200 {object} vo.NewsVO
 // @Failure 400 {string} string
 // @router /news [post]
@@ -76,6 +79,7 @@ func NewsPost(ctx *gin.Context) {
 // @Produce plain
 // @param id path int true "編號"
 // @param putVO body vo.NewsPutVO true "body for NewsPutVO content"
+// @Security BearerAuth
 // @Success 200 {string} string
 // @Failure 400 {string} string
 // @router /news/{id} [put]
@@ -106,6 +110,7 @@ func NewsPut(ctx *gin.Context) {
 // @Tags information
 // @Produce plain
 // @param id path int true "編號"
+// @Security BearerAuth
 // @Success 200 {string} string
 // @Failure 400 {string} string
 // @router /news/{id} [delete]

@@ -3,6 +3,7 @@ package route
 import (
 	"demo-gin-api/controller"
 	"demo-gin-api/docs"
+	"demo-gin-api/middleware"
 
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
@@ -23,7 +24,12 @@ func InitRouter() {
 
 func setInformationRouter(apiGroup *gin.RouterGroup) {
 
-	newsRouter := apiGroup.Group("/news")
+	authRouter := apiGroup.Group("/user")
+	{
+		authRouter.POST("/login", controller.UserLoginPost)
+	}
+
+	newsRouter := apiGroup.Group("/news").Use(middleware.JWTAuth())
 	{
 		newsRouter.GET("", controller.NewsGetList)
 		newsRouter.GET("/:id", controller.NewsGet)

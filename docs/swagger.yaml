@@ -36,6 +36,20 @@ definitions:
       url:
         type: string
     type: object
+  vo.UserPostVO:
+    properties:
+      account:
+        default: alan
+        example: 帳號
+        type: string
+      password:
+        default: testPwd
+        example: 密碼
+        type: string
+    required:
+    - account
+    - password
+    type: object
 host: 127.0.0.1:8080
 info:
   contact:
@@ -76,6 +90,8 @@ paths:
             items:
               $ref: '#/definitions/vo.NewsVO'
             type: array
+      security:
+      - BearerAuth: []
       summary: getList
       tags:
       - information
@@ -117,6 +133,8 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: addOne
       tags:
       - information
@@ -140,6 +158,8 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: deleteOne
       tags:
       - information
@@ -157,6 +177,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/vo.NewsVO'
+      security:
+      - BearerAuth: []
       summary: getOne
       tags:
       - information
@@ -187,9 +209,42 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: editOne
       tags:
       - information
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: 登入
+      parameters:
+      - description: body for UserPostVO content
+        in: body
+        name: postVO
+        required: true
+        schema:
+          $ref: '#/definitions/vo.UserPostVO'
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Token
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: login
+      tags:
+      - authorization
 schemes:
 - http
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
