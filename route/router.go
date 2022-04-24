@@ -16,6 +16,7 @@ func InitRouter() {
 	r := gin.Default()
 
 	apiGroup := r.Group(docs.SwaggerInfo.BasePath)
+	apiGroup.Static("/static", "./static")
 	setInformationRouter(apiGroup)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
